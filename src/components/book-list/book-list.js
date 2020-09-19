@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import BookListItem from "../book-list-item";
 import { connect } from "react-redux";
 import { withBookstoreService } from "../hoc";
+import { booksLoaded } from "../../actions";
 
 import "./book-list.css";
 
@@ -40,10 +41,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     booksLoaded: (newBooks) => {
-      dispatch({
-        type: "BOOKS_LOADED",
-        payload: newBooks,
-      });
+      dispatch(booksLoaded(newBooks));
     },
   };
 };
