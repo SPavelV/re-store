@@ -61,6 +61,43 @@ const reducer = (state = initialState, action) => {
         cartItems: updateCartItems(state.cartItems, newItem, itemIdx),
       };
 
+    case "BOOKS_REMOVED_FROM_CART":
+      const removedBookIndex = state.cartItems.findIndex(
+        ({ id }) => action.payload === id
+      );
+      const removeBook = state.cartItems[removedBookIndex];
+      debugger;
+      const bookPrice = state.books.find(
+        (book) => book.id === action.payload.id);
+
+      if (removeBook.count === 1) {
+        const items = [state.cartItems].filter(
+          (item) => item.id !== action.payload.id
+        );
+        return {
+          ...state,
+          cartItems: items,
+        };
+      } else {
+        const items = [...state.cartItems];
+        items[removedBookIndex].count -= 1;
+        items[removedBookIndex].total -= bookPrice.price;
+        return {
+          ...state,
+          cartItems: items,
+        };
+      }
+
+    case "ALL_BOOKS_REMOVED_FROM_CART":
+      const cartItems = state.cartItems.filter(
+        (item) => item.id !== action.payload
+      );
+
+      return {
+        ...state,
+        cartItems,
+      };
+
     default:
       return state;
   }
