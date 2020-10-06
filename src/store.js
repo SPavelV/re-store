@@ -1,19 +1,19 @@
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducers";
 
-const logMiddleware = (store) => (dispatch) => (action) => {
-  console.log(action.type, store.getState());
-  return dispatch(action);
+const logMiddleware = ({ getState }) => (next) => (action) => {
+  console.log(action.type, getState());
+  return next(action);
 };
 
-const stringMiddleWare = () => (dispatch) => (action) => {
+const stringMiddleWare = () => (next) => (action) => {
   if (typeof action === "string") {
-    return dispatch({
+    return next({
       type: action,
     });
   }
 
-  return dispatch(action);
+  return next(action);
 };
 
 const store = createStore(
