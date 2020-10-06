@@ -18,13 +18,21 @@ const booksError = (error) => {
   };
 };
 
-export const fetchBooks = (bookstoreService, dispatch) => () => {
+export const fetchBooksOld = (bookstoreService, dispatch) => () => {
   dispatch(booksRequested());
   bookstoreService
     .getBooks()
     .then((data) => dispatch(booksLoaded(data)))
     .catch((err) => dispatch(booksError(err)));
 };
+
+export const fetchBooks = (bookstoreService) => () => (dispatch) => {
+  dispatch(booksRequested());
+  bookstoreService
+    .getBooks()
+    .then((data) => dispatch(booksLoaded(data)))
+    .catch((err) => dispatch(booksError(err)));
+}
 
 export const bookAddedToCart = (bookId) => {
   return {
